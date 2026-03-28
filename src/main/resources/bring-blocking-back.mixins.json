@@ -3,7 +3,7 @@
 	"package": "com.felpslipe.bbb.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+		"ItemInHandRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
