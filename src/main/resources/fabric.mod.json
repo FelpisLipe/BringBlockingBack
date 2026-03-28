@@ -5,12 +5,12 @@
 	"name": "Bring Blocking Back",
 	"description": "A simple mod that adds the old sword blocking animation",
 	"authors": [
-		"Me!"
+		"FelpsLipe"
 	],
 	"contact": {
 		"sources": "https://github.com/FelpisLipe/BringBlockingBack"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/bring-blocking-back/icon.png",
 	"environment": "*",
 	"entrypoints": {
