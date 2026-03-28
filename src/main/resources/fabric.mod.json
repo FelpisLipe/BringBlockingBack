@@ -1,0 +1,30 @@
+{
+	"schemaVersion": 1,
+	"id": "bring-blocking-back",
+	"version": "${version}",
+	"name": "Bring Blocking Back",
+	"description": "A simple mod that adds the old sword blocking animation",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"sources": "https://github.com/FelpisLipe/BringBlockingBack"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/bring-blocking-back/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"client": [
+			"com.felpslipe.bbb.BringBlockingBack"
+		]
+	},
+	"mixins": [
+		"bring-blocking-back.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.18.5",
+		"minecraft": "~1.21.10",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
