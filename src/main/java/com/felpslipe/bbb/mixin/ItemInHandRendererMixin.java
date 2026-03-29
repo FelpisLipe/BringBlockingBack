@@ -34,7 +34,7 @@ public abstract class ItemInHandRendererMixin {
 
     @Inject(method = "renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext; Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector; I)V", at = @At("HEAD"), cancellable = true)
     public void renderItem(LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext itemDisplayContext, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, CallbackInfo ci) {
-        if(!itemStack.isEmpty() && itemStack.is(ItemTags.SWORDS) && client.options.keyUse.isDown()) {
+        if(!itemStack.isEmpty() && livingEntity.getOffhandItem().isEmpty() && livingEntity.getMainHandItem().is(ItemTags.SWORDS) && client.options.keyUse.isDown()) {
             Utils.firstPersonSwordBlock(poseStack);
         }
 
@@ -43,7 +43,7 @@ public abstract class ItemInHandRendererMixin {
     @Redirect(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;swingArm(FFLcom/mojang/blaze3d/vertex/PoseStack;ILnet/minecraft/world/entity/HumanoidArm;)V"))
     public void renderArmWithItem(ItemInHandRenderer instance, float f, float g, PoseStack poseStack, int i, HumanoidArm humanoidArm) {
         LivingEntity player = client.player;
-        if(player != null && player.getMainHandItem().is(ItemTags.SWORDS) && client.options.keyUse.isDown()) {
+        if(player != null && player.getOffhandItem().isEmpty() && player.getMainHandItem().is(ItemTags.SWORDS) && client.options.keyUse.isDown()) {
             applyItemArmTransform(poseStack, humanoidArm, g);
             applyItemArmAttackTransform(poseStack, humanoidArm, f);
         }

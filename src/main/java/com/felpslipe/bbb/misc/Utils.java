@@ -10,4 +10,9 @@ public class Utils {
         stack.mulPose(Axis.ZP.rotationDegrees(82.0f));
         stack.mulPose(Axis.YP.rotationDegrees(112.0f));
     }
+
+    public static void swordBlockThirdPerson(PoseStack stack) {
+        stack.translate(-0.675F, 0f, 0f);
+        stack.mulPose(Axis.YP.rotationDegrees(-90.0F));
+    }
 }
