@@ -24,10 +24,7 @@ import static com.felpslipe.bbb.BringBlockingBack.client;
 public abstract class ItemInHandRendererMixin {
 
     @Shadow
-    public abstract void swingArm(float swingProgress, float equipProgress, PoseStack matrices, int armX, HumanoidArm arm);
-
-    @Shadow
-    public abstract void applyItemArmTransform(PoseStack matrices, HumanoidArm arm, float equipProgress);
+    public abstract void swingArm(float swingProgress, PoseStack matrices, int armX, HumanoidArm arm);
 
     @Shadow
     public abstract void applyItemArmAttackTransform(PoseStack matrices, HumanoidArm arm, float swingProgress);
@@ -40,15 +37,14 @@ public abstract class ItemInHandRendererMixin {
 
     }
     
-    @Redirect(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;swingArm(FFLcom/mojang/blaze3d/vertex/PoseStack;ILnet/minecraft/world/entity/HumanoidArm;)V"))
-    public void renderArmWithItem(ItemInHandRenderer instance, float f, float g, PoseStack poseStack, int i, HumanoidArm humanoidArm) {
+    @Redirect(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;swingArm(FLcom/mojang/blaze3d/vertex/PoseStack;ILnet/minecraft/world/entity/HumanoidArm;)V"))
+    public void renderArmWithItem(ItemInHandRenderer instance, float f, PoseStack poseStack, int i, HumanoidArm humanoidArm) {
         LivingEntity player = client.player;
         if(player != null && player.getOffhandItem().isEmpty() && player.getMainHandItem().is(ItemTags.SWORDS) && client.options.keyUse.isDown()) {
-            applyItemArmTransform(poseStack, humanoidArm, g);
             applyItemArmAttackTransform(poseStack, humanoidArm, f);
         }
         else {
-            swingArm(f, g, poseStack, i, humanoidArm);
+            swingArm(f, poseStack, i, humanoidArm);
         }
     }
 }
