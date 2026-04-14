@@ -12,7 +12,9 @@ public class Utils {
     }
 
     public static void swordBlockThirdPerson(PoseStack stack) {
-        stack.translate(-0.675F, 0f, 0f);
         stack.mulPose(Axis.YP.rotationDegrees(-90.0F));
+        stack.mulPose(Axis.ZP.rotationDegrees(-40.0F));
+        stack.mulPose(Axis.XP.rotationDegrees(51.0F));
+        stack.translate(0.2f, 0.16f, 0.03f);
     }
 }

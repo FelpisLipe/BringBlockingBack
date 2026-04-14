@@ -2,11 +2,9 @@ package com.felpslipe.bbb.mixin;
 
 import com.felpslipe.bbb.misc.Utils;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -24,13 +22,13 @@ import static com.felpslipe.bbb.BringBlockingBack.client;
 public abstract class ItemInHandRendererMixin {
 
     @Shadow
-    public abstract void swingArm(float swingProgress, PoseStack matrices, int armX, HumanoidArm arm);
+    protected abstract void swingArm(float swingProgress, PoseStack matrices, int armX, HumanoidArm arm);
 
     @Shadow
-    public abstract void applyItemArmAttackTransform(PoseStack matrices, HumanoidArm arm, float swingProgress);
+    protected abstract void applyItemArmAttackTransform(PoseStack matrices, HumanoidArm arm, float swingProgress);
 
-    @Inject(method = "renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext; Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector; I)V", at = @At("HEAD"), cancellable = true)
-    public void renderItem(LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext itemDisplayContext, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, CallbackInfo ci) {
+    @Inject(method = "renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext; Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector; I)V", at = @At("HEAD"))
+    private void renderItem(LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext itemDisplayContext, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, CallbackInfo ci) {
         if(!itemStack.isEmpty() && livingEntity.getOffhandItem().isEmpty() && livingEntity.getMainHandItem().is(ItemTags.SWORDS) && client.options.keyUse.isDown()) {
             Utils.firstPersonSwordBlock(poseStack);
         }
@@ -38,7 +36,7 @@ public abstract class ItemInHandRendererMixin {
     }
     
     @Redirect(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;swingArm(FLcom/mojang/blaze3d/vertex/PoseStack;ILnet/minecraft/world/entity/HumanoidArm;)V"))
-    public void renderArmWithItem(ItemInHandRenderer instance, float f, PoseStack poseStack, int i, HumanoidArm humanoidArm) {
+    private void renderArmWithItem(ItemInHandRenderer instance, float f, PoseStack poseStack, int i, HumanoidArm humanoidArm) {
         LivingEntity player = client.player;
         if(player != null && player.getOffhandItem().isEmpty() && player.getMainHandItem().is(ItemTags.SWORDS) && client.options.keyUse.isDown()) {
             applyItemArmAttackTransform(poseStack, humanoidArm, f);
