@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.client.renderer.entity.state.ArmedEntityRenderState;
+import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.HumanoidArm;
@@ -19,10 +20,10 @@ import static com.felpslipe.bbb.BringBlockingBack.client;
 @Mixin(ItemInHandLayer.class)
 public abstract class ItemInHandLayerMixin {
 
-    @Inject(method = "submitArmWithItem", at = @At("HEAD"))
-    public void submitArmWithItem(ArmedEntityRenderState armedEntityRenderState, ItemStackRenderState itemStackRenderState, HumanoidArm humanoidArm, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, CallbackInfo ci) {
+    @Inject(method = "submitArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/item/ItemStackRenderState;submit(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;III)V", shift = At.Shift.BEFORE))
+    private void submitArmWithItem(ArmedEntityRenderState armedEntityRenderState, ItemStackRenderState itemStackRenderState, HumanoidArm humanoidArm, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, CallbackInfo ci) {
         LivingEntity player = client.player;
-
+        if (!(armedEntityRenderState instanceof AvatarRenderState)) return;
         if (player != null && player.getOffhandItem().isEmpty() && player.getMainHandItem().is(ItemTags.SWORDS) && humanoidArm == HumanoidArm.RIGHT && client.options.keyUse.isDown()) {
             Utils.swordBlockThirdPerson(poseStack);
         }

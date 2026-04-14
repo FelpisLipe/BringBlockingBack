@@ -1,7 +1,6 @@
 package com.felpslipe.bbb;
 
 import net.fabricmc.api.ClientModInitializer;
-
 import net.minecraft.client.Minecraft;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
