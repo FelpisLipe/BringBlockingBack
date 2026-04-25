@@ -1,5 +1,6 @@
 package com.felpslipe.bbb.mixin;
 
+import com.felpslipe.bbb.config.ConfigHelper;
 import com.felpslipe.bbb.misc.Utils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.ArmedModel;
@@ -26,9 +27,12 @@ public abstract class ItemInHandLayerMixin<S extends ArmedEntityRenderState, M e
     @Inject(method = "submitArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/item/ItemStackRenderState;submit(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;III)V", shift = At.Shift.BEFORE))
     private void submitArmWithItem(S armedEntityRenderState, ItemStackRenderState itemStackRenderState, ItemStack itemStack, HumanoidArm humanoidArm, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, CallbackInfo ci) {
         LivingEntity player = client.player;
-        if (!(armedEntityRenderState instanceof AvatarRenderState)) return;
-        if (player != null && player.getOffhandItem().isEmpty() && player.getMainHandItem().is(ItemTags.SWORDS) && humanoidArm == HumanoidArm.RIGHT && client.options.keyUse.isDown()) {
-            Utils.swordBlockThirdPerson(poseStack);
+        if(player != null) {
+            ItemStack mainHandItem = player.getMainHandItem();
+            if (!(armedEntityRenderState instanceof AvatarRenderState)) return;
+            if (player.getOffhandItem().isEmpty() && ConfigHelper.canBlock(mainHandItem) && humanoidArm == HumanoidArm.RIGHT && client.options.keyUse.isDown()) {
+                Utils.swordBlockThirdPerson(poseStack);
+            }
         }
     }
 }

@@ -1,18 +1,18 @@
 {
-	"required": true,
-	"package": "com.felpslipe.bbb.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-		"ItemInHandRendererMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
-	},
-	"overwrites": {
-		"requireAnnotations": true
-	},
-	"client": [
-		"HumanoidModelMixin",
-		"ItemInHandLayerMixin"
-	]
+  "required": true,
+  "package": "com.felpslipe.bbb.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "ItemInHandRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  },
+  "client": [
+    "HumanoidModelMixin",
+    "ItemInHandLayerMixin"
+  ]
 }
