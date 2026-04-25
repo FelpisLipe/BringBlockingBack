@@ -1,5 +1,6 @@
 package com.felpslipe.bbb;
 
+import com.felpslipe.bbb.config.ConfigManager;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.Minecraft;
 import org.slf4j.Logger;
@@ -14,5 +15,6 @@ public class BringBlockingBack implements ClientModInitializer {
 	public void onInitializeClient() {
 		client = Minecraft.getInstance();
 		LOGGER.info("[BBB] Bringing blocking back..");
+		ConfigManager.load();
 	}
 }

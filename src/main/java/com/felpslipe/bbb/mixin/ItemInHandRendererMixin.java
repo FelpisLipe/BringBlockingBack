@@ -1,5 +1,6 @@
 package com.felpslipe.bbb.mixin;
 
+import com.felpslipe.bbb.config.ConfigHelper;
 import com.felpslipe.bbb.misc.Utils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.ItemInHandRenderer;
@@ -32,7 +33,8 @@ public abstract class ItemInHandRendererMixin {
 
     @Inject(method = "renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext; Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector; I)V", at = @At("HEAD"))
     private void renderItem(LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext itemDisplayContext, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, CallbackInfo ci) {
-        if(!itemStack.isEmpty() && livingEntity.getOffhandItem().isEmpty() && livingEntity.getMainHandItem().is(ItemTags.SWORDS) && client.options.keyUse.isDown()) {
+        ItemStack mainHandItem = livingEntity.getMainHandItem();
+        if(!itemStack.isEmpty() && livingEntity.getOffhandItem().isEmpty() && ConfigHelper.canBlock(mainHandItem) && client.options.keyUse.isDown()) {
             Utils.firstPersonSwordBlock(poseStack);
         }
 
@@ -41,12 +43,14 @@ public abstract class ItemInHandRendererMixin {
     @Redirect(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;swingArm(FFLcom/mojang/blaze3d/vertex/PoseStack;ILnet/minecraft/world/entity/HumanoidArm;)V"))
     private void renderArmWithItem(ItemInHandRenderer instance, float f, float g, PoseStack poseStack, int i, HumanoidArm humanoidArm) {
         LivingEntity player = client.player;
-        if(player != null && player.getOffhandItem().isEmpty() && player.getMainHandItem().is(ItemTags.SWORDS) && client.options.keyUse.isDown()) {
-            applyItemArmTransform(poseStack, humanoidArm, g);
-            applyItemArmAttackTransform(poseStack, humanoidArm, f);
-        }
-        else {
-            swingArm(f, g, poseStack, i, humanoidArm);
+        if(player != null) {
+            ItemStack mainHandItem = player.getMainHandItem();
+            if (player.getOffhandItem().isEmpty() && ConfigHelper.canBlock(mainHandItem) && client.options.keyUse.isDown()) {
+                applyItemArmTransform(poseStack, humanoidArm, g);
+                applyItemArmAttackTransform(poseStack, humanoidArm, f);
+            } else {
+                swingArm(f, g, poseStack, i, humanoidArm);
+            }
         }
     }
 }

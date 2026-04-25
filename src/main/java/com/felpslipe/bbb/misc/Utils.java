@@ -15,6 +15,8 @@ public class Utils {
         stack.mulPose(Axis.YP.rotationDegrees(-90.0f));
         stack.mulPose(Axis.ZP.rotationDegrees(-40.0f));
         stack.mulPose(Axis.XP.rotationDegrees(51.0f));
-        stack.translate(0.2f, 0.16f, 0.03f);
+        stack.mulPose(Axis.ZP.rotationDegrees(180.0f));
+        stack.mulPose(Axis.XP.rotationDegrees(197.2f));
+        stack.translate(-0.22f, 0.13f, -0.22f);
     }
 }
