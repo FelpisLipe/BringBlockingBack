@@ -24,15 +24,15 @@ public class ConfigManager {
                 }
             }
             catch(Exception e) {
-                LOGGER.error("Failed to write config", e);
+                LOGGER.error("[BBB] Failed to write config", e);
             }
         }
         try(Reader reader = new FileReader(configPath.toFile())) {
             config = gson.fromJson(reader, Config.class);
-            LOGGER.info("Config loaded successfully");
+            LOGGER.info("[BBB] Config loaded successfully");
         }
         catch(Exception e) {
-            LOGGER.error("Failed to load config", e);
+            LOGGER.error("[BBB] Failed to load config", e);
         }
 
     }
