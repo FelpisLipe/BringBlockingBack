@@ -12,16 +12,16 @@ import static com.felpslipe.bbb.BringBlockingBack.LOGGER;
 import static com.felpslipe.bbb.BringBlockingBack.client;
 
 public class ConfigManager {
-    public static final Gson gson = new Gson();
-    public static final Path configPath = FabricLoader.getInstance().getConfigDir().resolve("bringblockingback.json");
+    public static final Gson GSON = new Gson();
+    public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve("bringblockingback.json");
     public static Config config = new Config();
 
     public static void load() {
-        if(!Files.exists(configPath)) {
+        if(!Files.exists(CONFIG_PATH)) {
             try {
-                Files.createDirectories(configPath.getParent());
-                try(Writer writer = new FileWriter(configPath.toFile())) {
-                    gson.toJson(config, writer);
+                Files.createDirectories(CONFIG_PATH.getParent());
+                try(Writer writer = new FileWriter(CONFIG_PATH.toFile())) {
+                    GSON.toJson(config, writer);
 
                 }
             }
@@ -29,8 +29,8 @@ public class ConfigManager {
                 LOGGER.error("[BBB] Failed to write config", e);
             }
         }
-        try(Reader reader = new FileReader(configPath.toFile())) {
-            config = gson.fromJson(reader, Config.class);
+        try(Reader reader = new FileReader(CONFIG_PATH.toFile())) {
+            config = GSON.fromJson(reader, Config.class);
             LOGGER.info("[BBB] Config loaded successfully");
             if(client.player != null) {
                 client.player.sendSystemMessage(Component.literal("[BBB] Config Reloaded"));
