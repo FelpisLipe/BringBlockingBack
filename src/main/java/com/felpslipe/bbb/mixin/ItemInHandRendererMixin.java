@@ -36,8 +36,8 @@ public abstract class ItemInHandRendererMixin {
 
     }
     
-    @Redirect(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;swingArm(FLcom/mojang/blaze3d/vertex/PoseStack;ILnet/minecraft/world/entity/HumanoidArm;)V"))
-    private void renderArmWithItem(ItemInHandRenderer instance, float attack, PoseStack poseStack, int invert, HumanoidArm arm) {
+    @Redirect(method = "submitArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;swingArm(FLcom/mojang/blaze3d/vertex/PoseStack;ILnet/minecraft/world/entity/HumanoidArm;)V"))
+    private void submitArmWithItem(ItemInHandRenderer instance, float attack, PoseStack poseStack, int invert, HumanoidArm arm) {
         LivingEntity player = client.player;
         if(player != null) {
             ItemStack mainHandItem = player.getMainHandItem();
