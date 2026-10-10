@@ -1,8 +1,8 @@
 package com.felpslipe.bbb.config;
 
+import com.mojang.blaze3d.Blaze3D;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Util;
 public class BBBConfigScreen extends Screen {
     private final Screen parent;
     public BBBConfigScreen(Screen parent) {
@@ -12,7 +12,7 @@ public class BBBConfigScreen extends Screen {
 
     @Override
     protected void init() {
-        Util.getPlatform().openUri(ConfigManager.CONFIG_PATH.toUri());
+        Blaze3D.openUri(ConfigManager.CONFIG_PATH.toUri());
         minecraft.setScreenAndShow(parent);
     }
 }

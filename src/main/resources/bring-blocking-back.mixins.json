@@ -3,7 +3,6 @@
   "package": "com.felpslipe.bbb.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "ItemInHandRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -12,7 +11,8 @@
     "requireAnnotations": true
   },
   "client": [
-    "PlayerModelMixin",
-    "ItemInHandLayerMixin"
+    "FirstPersonHandsAndItemsRendererMixin",
+    "ItemInHandLayerMixin",
+    "PlayerModelMixin"
   ]
 }
