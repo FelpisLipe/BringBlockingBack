@@ -28,7 +28,7 @@ public abstract class ItemInHandLayerMixin<S extends ArmedEntityRenderState> {
             ItemStack mainHandItem = player.getMainHandItem();
             if (!(state instanceof AvatarRenderState avatarRenderState)) return;
             if(avatarRenderState.id == player.getId()) {
-                 if (player.getOffhandItem().isEmpty() && ConfigHelper.canBlock(mainHandItem) && arm == HumanoidArm.RIGHT && client.options.keyUse.isDown()) {
+                 if (player.getOffhandItem().isEmpty() && ConfigHelper.canBlock(mainHandItem) && client.options.keyUse.isDown()) {
                     Utils.swordBlockThirdPerson(poseStack);
                 }
             }
