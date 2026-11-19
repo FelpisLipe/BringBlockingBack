@@ -27,7 +27,7 @@ public abstract class PlayerModelMixin extends HumanoidModel<AvatarRenderState> 
         if (player != null && state.id == client.player.getId()) {
             ItemStack mainHandItem = player.getMainHandItem();
             if (player.getOffhandItem().isEmpty() && ConfigHelper.canBlock(mainHandItem) && client.options.keyUse.isDown()) {
-                this.rightArm.xRot = -0.94F;
+                this.getArm(player.getMainArm()).xRot = -0.94F;
                 //this.rightArm.yRot = -0.52F;
             }
         }
